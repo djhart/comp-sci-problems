@@ -93,16 +93,18 @@ def get_word_score(word, n):
     """
 
     
-    word_score = 0
+    word_score_1 = 0
+    wordlen = len(word)
     for c in word.lower():
-        word_score += SCRABBLE_LETTER_VALUES[c]
+        if c != '*':
+            word_score_1 += SCRABBLE_LETTER_VALUES[c]
 
-    word_score *= n
+
+    word_score_2 = max(1,7*wordlen-3*(n-wordlen))
+
+    word_score = word_score_1 * word_score_2
 
     return word_score
-
-
-
 
 #
 # Make sure you understand how this function works and what it does!
@@ -178,8 +180,14 @@ def update_hand(hand, word):
     returns: dictionary (string -> int)
     """
 
-    pass  # TO DO... Remove this line when you implement this function
+    new_hand = hand.copy()
+    for letter in word.lower():
+        if letter in new_hand:
+            if new_hand[letter] > 0:
+                
+                new_hand[letter] -= 1
 
+    return new_hand
 #
 # Problem #3: Test word validity
 #
@@ -194,8 +202,39 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     returns: boolean
     """
+    fail = 0
+    temp_hand = hand.copy()
+    wild_words = []
+    wild_check = 0
+    i = 0
+    a = word
+    for vowel in VOWELS:
+        wild_words.append(a.lower().replace("*",vowel))
 
-    pass  # TO DO... Remove this line when you implement this function
+    for test in wild_words:
+        if test in word_list:
+            wild_check = 1
+
+    if (word.lower() in word_list) or (wild_check == 1):
+        for letter in word.lower():
+            if letter in temp_hand:
+                if temp_hand[letter] > 0:
+                    temp_hand[letter] -= 1
+                # elif '*' in temp_hand and letter in VOWELS:
+                    # del temp_hand['*']
+                else: fail = 1
+
+            # elif '*' in temp_hand and letter in VOWELS:
+                # del temp_hand['*']
+            else: fail = 1
+    else: fail = 1
+
+
+    if fail:
+        return False
+    else:
+        return True
+
 
 #
 # Problem #5: Playing a hand
@@ -207,8 +246,11 @@ def calculate_handlen(hand):
     hand: dictionary (string-> int)
     returns: integer
     """
+    handlen = 0
+    for letter in hand:
+        handlen += hand[letter]
+    return handlen
     
-    pass  # TO DO... Remove this line when you implement this function
 
 def play_hand(hand, word_list):
 
@@ -240,7 +282,29 @@ def play_hand(hand, word_list):
       returns: the total score for the hand
       
     """
+    n = calculate_handlen(hand)
+    score = 0
+
+    while calculate_handlen(hand) > 0:
+        display_hand(hand)
+        print("current score: ", score)
+        word = input("\n enter word: ")
+        print(word)
+        if word == "!!":
+            for letter in hand:
+                hand[letter] = 0
+        else:
+            if is_valid_word(word, hand, word_list):
+                score += get_word_score(word, n)
+                print("valid word, good job")
+            else:
+                print("word is not valid. Please choose another word")
+
+            hand = update_hand(hand,word)
     
+
+
+
     # BEGIN PSEUDOCODE <-- Remove this comment when you implement this function
     # Keep track of the total score
     
