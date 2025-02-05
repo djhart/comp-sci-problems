@@ -301,6 +301,9 @@ def play_hand(hand, word_list):
 
             hand = update_hand(hand,word)
 
+
+    return score
+
 def substitute_hand(hand, letter):
     """
     Allow the user to replace all copies of one letter in the hand (chosen by user)
@@ -335,6 +338,7 @@ def substitute_hand(hand, letter):
 
 
 def play_game(word_list):
+
     """
     Allow the user to play a series of hands
 
@@ -365,12 +369,35 @@ def play_game(word_list):
     word_list: list of lowercase strings
     """
 
+    score = 0
     replay_hand_token = 1
     substitute_letter_token = 1
+    n_hands = int(input("how many hands"))
+
+    while n_hands > 0:
+        hand = deal_hand(HAND_SIZE)
+        backup = hand.copy()
+        display_hand(hand)
+        if substitute_letter_token:
+            sub_ans = input("would you like to substitute a letter\n")
+            if sub_ans.lower() == "yes":
+                sub_letter = input("which letter?\n")
+                hand = substitute_hand(hand, sub_letter)
+                substitute_letter_token = 0
+
+        hand_score = play_hand(hand, word_list)
+        if replay_hand_token:
+            if input("would you like to replay hand\n") == "yes":
+                hand_score = play_hand(backup, word_list)
+                replay_hand_token = 0
+
+        score += hand_score
+        n_hands -= 1
 
 
+    print("game over, your score is ", score)
 
-test = "TEST"
+
 #
 # Build data structures used for entire session and play game
 # Do not remove the "if __name__ == '__main__':" line - this code is executed
