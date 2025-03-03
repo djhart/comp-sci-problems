@@ -70,7 +70,7 @@ class Message(object):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass #delete this line and replace with your code here
+        self.message_text = text
 
     def get_message_text(self):
         '''
@@ -78,7 +78,7 @@ class Message(object):
         
         Returns: self.message_text
         '''
-        pass #delete this line and replace with your code here
+        return self.message_text
 
     def get_valid_words(self):
         '''
@@ -87,7 +87,7 @@ class Message(object):
         
         Returns: a COPY of self.valid_words
         '''
-        pass #delete this line and replace with your code here
+        return self.valid_words.copy()
 
     def build_shift_dict(self, shift):
         '''
@@ -103,7 +103,17 @@ class Message(object):
         Returns: a dictionary mapping a letter (string) to 
                  another letter (string). 
         '''
-        pass #delete this line and replace with your code here
+        alphabet = []
+        for j in range(2):
+            for i in range(ord('a'),ord('z')+1):
+                alphabet.append(chr(i))
+        for j in range(2):
+            for i in range(ord('A'),ord('Z')+1):
+                alphabet.append(chr(i))
+        
+
+            
+
 
     def apply_shift(self, shift):
         '''
@@ -205,7 +215,21 @@ class CiphertextMessage(Message):
         '''
         pass #delete this line and replace with your code here
 
-if __name__ == '__main__':
+alphabet = []
+for j in range(2):
+    for i in range(ord('a'),ord('z')+1):
+        alphabet.append(chr(i))
+for j in range(2):
+    for i in range(ord('A'),ord('Z')+1):
+        alphabet.append(chr(i))
+
+for i in range(ord('a'), ord('Z')):
+    print(chr(i))
+
+
+print(len(alphabet))
+
+# if __name__ == '__main__':
 
 #    #Example test case (PlaintextMessage)
 #    plaintext = PlaintextMessage('hello', 2)
@@ -221,4 +245,4 @@ if __name__ == '__main__':
 
     #TODO: best shift value and unencrypted story 
     
-    pass #delete this line and replace with your code here
+
