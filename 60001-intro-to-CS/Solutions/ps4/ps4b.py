@@ -104,13 +104,23 @@ class Message(object):
                  another letter (string). 
         '''
         alphabet = []
+        shift_dict = {}
         for j in range(2):
             for i in range(ord('a'),ord('z')+1):
                 alphabet.append(chr(i))
         for j in range(2):
             for i in range(ord('A'),ord('Z')+1):
                 alphabet.append(chr(i))
-        
+
+        for i in range(ord('a'),ord('z')+1):
+            shift_dict[chr(i)] = alphabet[alphabet.index(chr(i)) + shift]
+        for i in range(ord('A'),ord('Z')+1):
+            shift_dict[chr(i)] = alphabet[alphabet.index(chr(i)) + shift]
+
+        return shift_dict
+
+
+
 
             
 
@@ -127,7 +137,19 @@ class Message(object):
         Returns: the message text (string) in which every character is shifted
              down the alphabet by the input shift
         '''
-        pass #delete this line and replace with your code here
+
+        shift_dict = self.build_shift_dict(shift)
+        orig_msg = self.get_message_text()
+        shift_msg = list(orig_msg)
+
+        for i, char in enumerate(shift_msg):
+            if char in shift_dict:
+                shift_msg[i] = shift_dict[char]
+
+        return shift_msg
+
+
+
 
 class PlaintextMessage(Message):
     def __init__(self, text, shift):
@@ -145,7 +167,12 @@ class PlaintextMessage(Message):
             self.message_text_encrypted (string, created using shift)
 
         '''
-        pass #delete this line and replace with your code here
+
+        self.message_text = text
+        self.valid_words = load_words('words.txt') 
+        self.shift = shift
+        self.encryption_dict = build_shift_dict(shift)
+        self.message_text_encrypted = apply_shift(shift)
 
     def get_shift(self):
         '''
@@ -153,7 +180,8 @@ class PlaintextMessage(Message):
         
         Returns: self.shift
         '''
-        pass #delete this line and replace with your code here
+
+        return self.shift
 
     def get_encryption_dict(self):
         '''
@@ -161,7 +189,8 @@ class PlaintextMessage(Message):
         
         Returns: a COPY of self.encryption_dict
         '''
-        pass #delete this line and replace with your code here
+
+        return self.encryption_dict.copy()
 
     def get_message_text_encrypted(self):
         '''
@@ -169,7 +198,8 @@ class PlaintextMessage(Message):
         
         Returns: self.message_text_encrypted
         '''
-        pass #delete this line and replace with your code here
+
+        return self.message_text_encrypted
 
     def change_shift(self, shift):
         '''
@@ -181,7 +211,12 @@ class PlaintextMessage(Message):
 
         Returns: nothing
         '''
-        pass #delete this line and replace with your code here
+
+        if 0 <= shift < 26:
+            self.shift = shift
+            self.encryption_dict = build_shift_dict(shift)
+            self.message_text_encrypted = apply_shift(shift)
+
 
 
 class CiphertextMessage(Message):
@@ -223,11 +258,11 @@ for j in range(2):
     for i in range(ord('A'),ord('Z')+1):
         alphabet.append(chr(i))
 
-for i in range(ord('a'), ord('Z')):
-    print(chr(i))
+# for i in range(ord('a'), ord('Z')):
+#     print(chr(i))
 
 
-print(len(alphabet))
+# print(len(alphabet))
 
 # if __name__ == '__main__':
 
