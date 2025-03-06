@@ -13,7 +13,7 @@ test_dick['j']  = 10
 print(test_dick)
 
 
-shift = 1
+shift = 25
 shift_dict = {}
 
 for i in range(ord('a'),ord('z')+1):
@@ -36,3 +36,11 @@ for i, char in enumerate(shift_msg):
 
 print(shift_msg)
 
+for i in range(1,26):
+    print(i)
+
+test_dick['k'] = 10
+a = max(test_dick, key=test_dick.get)
+
+
+a
