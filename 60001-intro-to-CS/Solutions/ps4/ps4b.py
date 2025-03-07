@@ -216,6 +216,7 @@ class PlaintextMessage(Message):
 
 
 class CiphertextMessage(Message):
+
     def __init__(self, text):
         '''
         Initializes a CiphertextMessage object
@@ -229,7 +230,6 @@ class CiphertextMessage(Message):
 
         self.message_text = text
         self.valid_words = load_words('words.txt')
-
 
     def decrypt_message(self):
         '''
@@ -265,22 +265,6 @@ class CiphertextMessage(Message):
 
 
 
-
-
-# alphabet = []
-# for j in range(2):
-#     for i in range(ord('a'),ord('z')+1):
-#         alphabet.append(chr(i))
-# for j in range(2):
-#     for i in range(ord('A'),ord('Z')+1):
-#         alphabet.append(chr(i))
-
-# for i in range(ord('a'), ord('Z')):
-#     print(chr(i))
-
-
-# print(len(alphabet))
-
 if __name__ == '__main__':
 
    #Example test case (PlaintextMessage)
@@ -293,19 +277,17 @@ if __name__ == '__main__':
    print('Expected Output:', (24, 'hello'))
    print('Actual Output:', ciphertext.decrypt_message())
 
-    # TODO: WRITE YOUR TEST CASES HERE
+   #User test cases
+   plaintext3 = PlaintextMessage('ACDC', 25)
+   print('Expected Output: ZBCB')
+   print('Actual Output:', plaintext3.get_message_text_encrypted())
 
-    # TODO: best shift value and unencrypted story 
+   ciphertext3 = CiphertextMessage('Bcr')
+   print('Expected Output:', (24, 'Zap'))
+   print('Actual Output:', ciphertext3.decrypt_message())
 
+   #decrypt story
+   ciphertext2 = CiphertextMessage(get_story_string())
+   print('decrypted story: ', ciphertext2.decrypt_message())
 
-
-# #Example test case (PlaintextMessage)
-# plaintext = PlaintextMessage('hello', 2)
-# print('Expected Output: jgnnq')
-# print('Actual Output:', plaintext.get_message_text_encrypted())
-
-# #Example test case (CiphertextMessage)
-# ciphertext = CiphertextMessage('jgnnq')
-# print('Expected Output:', (24, 'hello'))
-# print('Actual Output:', ciphertext.decrypt_message())
 
